@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TUTOR BELAJAR MANDIRI — Tutor Sokrates Berkesadaran</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .chat-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .chat-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .chat-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    @keyframes pulseDot {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+    .dot-1 { animation: pulseDot 1.2s infinite 0s; }
+    .dot-2 { animation: pulseDot 1.2s infinite 0.2s; }
+    .dot-3 { animation: pulseDot 1.2s infinite 0.4s; }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .msg-enter {
+      animation: fadeSlideUp 0.22s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-4 right-4 z-50 hidden max-w-sm rounded-xl bg-slate-900 text-white px-4 py-3 text-sm shadow-lg transition-all"></div>
+
+  <!-- ===================================================================== -->
+  <!-- SCREEN 1: FORM IDENTITAS & TOPIK                                      -->
+  <!-- ===================================================================== -->
+  <main id="setupScreen" class="flex-1 flex items-center justify-center p-4 sm:p-6">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+      <!-- Top Accent Header -->
+      <div class="bg-[#0f4c5c] px-6 py-6 sm:px-8 text-white">
+        <div class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold tracking-wide uppercase mb-3">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+          Pembelajaran Berkesadaran
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">TUTOR BELAJAR MANDIRI</h1>
+        <p class="text-slate-200 text-sm mt-1.5 leading-relaxed">
+          Diskusi terpandu bersama Tutor Sokrates. AI membantu dengan pertanyaan pemantik agar kamu menemukan jawabannya sendiri.
+        </p>
+      </div>
+
+      <!-- Form Body -->
+      <form id="startForm" class="p-6 sm:p-8 space-y-5">
+        <div>
+          <label for="namaSiswa" class="block text-sm font-semibold text-slate-700 mb-1.5">
+            Nama Siswa <span class="text-rose-500">*</span>
+          </label>
+          <input
+            id="namaSiswa"
+            type="text"
+            required
+            autocomplete="name"
+            placeholder="Contoh: Budi Santoso"
+            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-[#0f4c5c] focus:ring-2 focus:ring-[#0f4c5c]/20 focus:outline-none transition"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="jenjang" class="block text-sm font-semibold text-slate-700 mb-1.5">
+              Kelas / Jenjang <span class="text-rose-500">*</span>
+            </label>
+            <select
+              id="jenjang"
+              required
+              class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#0f4c5c] focus:ring-2 focus:ring-[#0f4c5c]/20 focus:outline-none transition"
+            >
+              <option value="" disabled selected>Pilih jenjang...</option>
+              <option value="SD Kelas 4">SD Kelas 4</option>
+              <option value="SD Kelas 5">SD Kelas 5</option>
+              <option value="SD Kelas 6">SD Kelas 6</option>
+              <option value="SMP Kelas 7">SMP Kelas 7</option>
+              <option value="SMP Kelas 8">SMP Kelas 8</option>
+              <option value="SMP Kelas 9">SMP Kelas 9</option>
+              <option value="SMA/SMK Kelas 10">SMA/SMK Kelas 10</option>
+              <option value="SMA/SMK Kelas 11">SMA/SMK Kelas 11</option>
+              <option value="SMA/SMK Kelas 12">SMA/SMK Kelas 12</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="mapel" class="block text-sm font-semibold text-slate-700 mb-1.5">
+              Mata Pelajaran <span class="text-rose-500">*</span>
+            </label>
+            <select
+              id="mapel"
+              required
+              class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#0f4c5c] focus:ring-2 focus:ring-[#0f4c5c]/20 focus:outline-none transition"
+            >
+              <option value="" disabled selected>Pilih mapel...</option>
+              <option value="Matematika">Matematika</option>
+              <option value="IPA / Sains">IPA / Sains</option>
+              <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+              <option value="Bahasa Inggris">Bahasa Inggris</option>
+              <option value="IPS / Sejarah">IPS / Sejarah</option>
+              <option value="Informatika">Informatika</option>
+              <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="topik" class="block text-sm font-semibold text-slate-700 mb-1.5">
+            Topik Materi <span class="text-rose-500">*</span>
+          </label>
+          <input
+            id="topik"
+            type="text"
+            required
+            placeholder="Contoh: Diskon Bertingkat & Pajak, Fotosintesis, Persamaan Linear"
+            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-[#0f4c5c] focus:ring-2 focus:ring-[#0f4c5c]/20 focus:outline-none transition"
+          />
+          <div class="flex flex-wrap gap-1.5 mt-2">
+            <button type="button" data-sample-mapel="Matematika" data-sample-topik="Diskon Bertingkat & Pajak" class="sample-topic-btn text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg transition">
+              Diskon Bertingkat
+            </button>
+            <button type="button" data-sample-mapel="Matematika" data-sample-topik="Persamaan Linear Satu Variabel" class="sample-topic-btn text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg transition">
+              Persamaan Linear
+            </button>
+            <button type="button" data-sample-mapel="IPA / Sains" data-sample-topik="Fotosintesis & Respirasi Tumbuhan" class="sample-topic-btn text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg transition">
+              Fotosintesis
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full rounded-xl bg-[#0f4c5c] hover:bg-[#0b3b47] active:scale-[0.99] text-white font-semibold py-3 px-4 text-sm shadow-sm transition flex items-center justify-center gap-2"
+        >
+          <span>Mulai Diskusi</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </button>
+
+        <!-- Status Koneksi Backend -->
+        <div id="connectionBanner" class="rounded-xl border px-3.5 py-2.5 text-xs flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span id="connDot" class="w-2.5 h-2.5 rounded-full flex-shrink-0"></span>
+            <span id="connText" class="leading-snug"></span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- SCREEN 2: LAYAR DISKUSI CHATBOT                                       -->
+  <!-- ===================================================================== -->
+  <section id="chatScreen" class="hidden flex-1 flex flex-col h-screen max-h-screen overflow-hidden">
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-slate-200 px-4 py-3 sm:px-6 flex items-center justify-between gap-3 flex-shrink-0">
+      <div class="min-w-0">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0"></span>
+          <h2 class="text-sm sm:text-base font-bold text-slate-900 truncate">TUTOR BELAJAR MANDIRI</h2>
+          <span id="badgeSessionId" class="hidden sm:inline-block text-[11px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md border border-slate-200"></span>
+        </div>
+        <p id="sessionMeta" class="text-xs text-slate-500 truncate mt-0.5"></p>
+      </div>
+
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <button
+          id="btnReflect"
+          type="button"
+          class="text-xs font-semibold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-3 py-1.5 rounded-lg transition"
+        >
+          Akhiri &amp; Refleksi
+        </button>
+        <button
+          id="btnReset"
+          type="button"
+          class="text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg transition"
+        >
+          Ganti Topik
+        </button>
+      </div>
+    </header>
+
+    <!-- Mode Demo Info Strip (hanya tampil jika URL Apps Script belum diisi) -->
+    <div id="demoNotice" class="hidden bg-amber-50 border-b border-amber-200 px-4 py-2 text-xs text-amber-900 text-center flex-shrink-0">
+      <strong>Mode Simulasi Lokal:</strong> Tempel URL Web App Google Apps Script pada variabel <code class="font-mono bg-amber-100 px-1 rounded">APPS_SCRIPT_URL</code> di <code class="font-mono">index.html</code> agar terhubung ke Gemini API &amp; Google Sheet <code class="font-mono">db_tutor</code>.
+    </div>
+
+    <!-- Chat Messages Container -->
+    <div id="chatMessages" class="flex-1 overflow-y-auto chat-scroll px-4 py-5 sm:px-6 space-y-4 max-w-3xl w-full mx-auto"></div>
+
+    <!-- Bottom Input Area -->
+    <div class="bg-white border-t border-slate-200 px-4 py-3 sm:px-6 flex-shrink-0">
+      <div class="max-w-3xl mx-auto space-y-2.5">
+        <!-- Quick Starter Chips -->
+        <div id="quickChips" class="flex flex-wrap gap-1.5">
+          <button type="button" class="quick-chip text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-full transition">
+            Saya bingung harus mulai dari langkah mana
+          </button>
+          <button type="button" class="quick-chip text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-full transition">
+            Tolong cek apakah dugaan awal saya sudah tepat
+          </button>
+          <button type="button" class="quick-chip text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-full transition">
+            Beri 1 petunjuk kecil saja
+          </button>
+        </div>
+
+        <form id="chatForm" class="flex items-end gap-2">
+          <textarea
+            id="chatInput"
+            rows="1"
+            placeholder="Tulis dugaan awalmu, langkah penyelesaian, atau bagian yang masih membingungkan..."
+            class="flex-1 resize-none rounded-xl border border-slate-300 bg-slate-50 focus:bg-white px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-[#0f4c5c] focus:ring-2 focus:ring-[#0f4c5c]/20 focus:outline-none max-h-36 transition"
+          ></textarea>
+          <button
+            id="btnSend"
+            type="submit"
+            class="rounded-xl bg-[#0f4c5c] hover:bg-[#0b3b47] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-4 py-2.5 text-sm shadow-sm transition flex items-center gap-1.5 flex-shrink-0"
+          >
+            <span>Kirim</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </form>
+        <div class="flex items-center justify-between text-[11px] text-slate-400">
+          <span>Tekan Enter untuk kirim, Shift+Enter untuk baris baru.</span>
+          <span id="saveIndicator">Tersimpan otomatis ke Google Sheet</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Konfirmasi Ganti Topik -->
+  <div id="resetModal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-[1px] flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-200">
+      <h3 class="text-base font-bold text-slate-900">Mulai Sesi Baru?</h3>
+      <p class="text-sm text-slate-600 mt-1.5">
+        Percakapan sebelumnya sudah tercatat dengan ID Sesi <strong id="modalSessionId" class="font-mono"></strong>. Kembali ke halaman awal untuk mengganti topik?
+      </p>
+      <div class="flex justify-end gap-2 mt-5">
+        <button id="btnCancelReset" type="button" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition">Batal</button>
+        <button id="btnConfirmReset" type="button" class="px-4 py-2 rounded-xl text-sm font-semibold bg-[#0f4c5c] hover:bg-[#0b3b47] text-white transition">Ya, Ganti Topik</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // KONFIGURASI BACKEND GOOGLE APPS SCRIPT
+    // Ganti teks di bawah ini dengan Web App URL hasil Deploy Code.gs (/exec)
+    // =========================================================================
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymeBfNtxUnxAaQ_2dr6t3qtDf2zC4QwqrT8ajOAUjtshIbJoy_uJY_nIXm1mzZ5hdL/exec';
+
+    const IS_LIVE_BACKEND =
+      APPS_SCRIPT_URL.startsWith('https://script.google.com/macros/s/') &&
+      !APPS_SCRIPT_URL.includes('PASTE_URL');
+
+    // State Aplikasi
+    const state = {
+      sessionId: '',
+      namaSiswa: '',
+      jenjang: '',
+      mapel: '',
+      topik: '',
+      history: [],
+      isSending: false,
+      turnCount: 0
+    };
+
+    // Elemen DOM
+    const setupScreen = document.getElementById('setupScreen');
+    const chatScreen = document.getElementById('chatScreen');
+    const startForm = document.getElementById('startForm');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const btnSend = document.getElementById('btnSend');
+    const btnReflect = document.getElementById('btnReflect');
+    const btnReset = document.getElementById('btnReset');
+    const resetModal = document.getElementById('resetModal');
+    const modalSessionId = document.getElementById('modalSessionId');
+    const btnCancelReset = document.getElementById('btnCancelReset');
+    const btnConfirmReset = document.getElementById('btnConfirmReset');
+    const badgeSessionId = document.getElementById('badgeSessionId');
+    const sessionMeta = document.getElementById('sessionMeta');
+    const demoNotice = document.getElementById('demoNotice');
+    const saveIndicator = document.getElementById('saveIndicator');
+    const toastEl = document.getElementById('toast');
+
+    // Inisialisasi Status Koneksi di Layar Awal
+    function initConnectionBanner() {
+      const banner = document.getElementById('connectionBanner');
+      const dot = document.getElementById('connDot');
+      const text = document.getElementById('connText');
+      if (IS_LIVE_BACKEND) {
+        banner.className = 'rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs text-emerald-800 flex items-center gap-2';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0';
+        text.textContent = 'Terhubung ke Google Sheet db_tutor & Gemini AI.';
+      } else {
+        banner.className = 'rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5 text-xs text-amber-900 flex items-center gap-2';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500 flex-shrink-0';
+        text.textContent = 'Mode Simulasi Lokal aktif (isi APPS_SCRIPT_URL untuk sinkronisasi ke Google Sheet).';
+      }
+    }
+
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.remove('hidden');
+      setTimeout(() => toastEl.classList.add('hidden'), 3200);
+    }
+
+    function generateSessionId() {
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      return `S${dd}${mm}-${rand}`;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatSimpleMarkdown(text) {
+      const safe = escapeHtml(text);
+      return safe
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function appendMessage(role, text) {
+      const wrapper = document.createElement('div');
+      wrapper.className = `msg-enter flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+
+      const bubble = document.createElement('div');
+      if (role === 'user') {
+        bubble.className = 'max-w-[85%] sm:max-w-[75%] rounded-2xl rounded-br-md bg-[#0f4c5c] text-white px-4 py-3 text-sm leading-relaxed shadow-sm';
+      } else {
+        bubble.className = 'max-w-[88%] sm:max-w-[78%] rounded-2xl rounded-bl-md bg-white border border-slate-200 text-slate-800 px-4 py-3 text-sm leading-relaxed shadow-sm';
+      }
+
+      const label = document.createElement('div');
+      label.className = `text-[11px] font-semibold mb-1 ${role === 'user' ? 'text-teal-100' : 'text-[#0f4c5c]'}`;
+      label.textContent = role === 'user' ? state.namaSiswa : 'Tutor Sokrates';
+
+      const body = document.createElement('div');
+      body.innerHTML = formatSimpleMarkdown(text);
+
+      bubble.appendChild(label);
+      bubble.appendChild(body);
+      wrapper.appendChild(bubble);
+      chatMessages.appendChild(wrapper);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const wrapper = document.createElement('div');
+      wrapper.id = 'typingIndicator';
+      wrapper.className = 'msg-enter flex justify-start';
+      wrapper.innerHTML = `
+        <div class="rounded-2xl rounded-bl-md bg-white border border-slate-200 px-4 py-3 shadow-sm flex items-center gap-2.5">
+          <div class="flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-[#0f4c5c] dot-1"></span>
+            <span class="w-2 h-2 rounded-full bg-[#0f4c5c] dot-2"></span>
+            <span class="w-2 h-2 rounded-full bg-[#0f4c5c] dot-3"></span>
+          </div>
+          <span class="text-xs text-slate-500">Tutor sedang menyusun pertanyaan pemantik...</span>
+        </div>
+      `;
+      chatMessages.appendChild(wrapper);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const el = document.getElementById('typingIndicator');
+      if (el) el.remove();
+    }
+
+    // Simulasi respons Sokrates lokal saat URL backend belum dipasang (agar bisa langsung dites di preview)
+    function generateLocalDemoReply(userText, isReflection) {
+      const lower = userText.toLowerCase();
+      if (isReflection) {
+        return `Terima kasih sudah berdiskusi dengan tekun, **${state.namaSiswa}**! Sebelum menutup sesi tentang **${state.topik}**, coba tuliskan dalam 1–2 kalimat dengan bahasamu sendiri: hal penting apa yang baru kamu sadari hari ini?`;
+      }
+      if (lower.includes('langsung') || lower.includes('jawaban') || lower.includes('kasih tau')) {
+        return `Aku mengerti kamu ingin cepat selesai, tetapi tugasku bukan memberi jawaban akhir—melainkan membantumu menemukannya sendiri. Dari soal **${state.topik}** yang sedang kamu hadapi, informasi atau angka apa saja yang sudah kamu ketahui di soal?`;
+      }
+      if (state.turnCount === 1) {
+        return `Langkah awal yang bagus karena kamu mau mencoba, **${state.namaSiswa}**! Sebelum kita lanjut ke tahap berikutnya pada materi **${state.topik}**, menurutmu aturan atau konsep dasar apa yang paling relevan dipakai di langkah pertama?`;
+      }
+      if (state.turnCount === 2) {
+        return `Menarik! Coba periksa kembali bagian itu sekali lagi: apakah ada syarat kecil di soal yang mungkin terlewat? Menurutmu, apa yang berubah jika syarat itu kita terapkan dulu?`;
+      }
+      return `Kamu semakin dekat! Alur berpikirmu sudah mulai rapi. Kalau hasil langkahmu tadi kamu uji kembali ke pertanyaan awal di topik **${state.topik}**, apakah nilainya sudah masuk akal menurutmu? Jelaskan singkat alasannya ya.`;
+    }
+
+    async function sendMessage(text, isReflection = false) {
+      const cleanText = text.trim();
+      if (!cleanText || state.isSending) return;
+
+      state.isSending = true;
+      state.turnCount += 1;
+      btnSend.disabled = true;
+      btnReflect.disabled = true;
+
+      appendMessage('user', cleanText);
+      chatInput.value = '';
+      chatInput.style.height = 'auto';
+      showTypingIndicator();
+      saveIndicator.textContent = IS_LIVE_BACKEND ? 'Menyimpan ke Google Sheet...' : 'Mode Simulasi Lokal';
+
+      try {
+        let botReply = '';
+
+        if (IS_LIVE_BACKEND) {
+          // Menggunakan text/plain agar tidak memicu CORS preflight di Google Apps Script
+          const res = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              sessionId: state.sessionId,
+              namaSiswa: state.namaSiswa,
+              jenjang: state.jenjang,
+              mapel: state.mapel,
+              topik: state.topik,
+              message: cleanText,
+              history: state.history.slice(-8),
+              isReflection: isReflection
+            })
+          });
+
+          const data = await res.json();
+          if (!data.ok) {
+            throw new Error(data.error || 'Gagal mendapatkan balasan dari server.');
+          }
+          botReply = data.reply;
+          saveIndicator.textContent = 'Tersimpan di Google Sheet (tab chatbot)';
+        } else {
+          // Delay singkat realistis untuk mode pratinjau lokal
+          await new Promise((r) => setTimeout(r, 650));
+          botReply = generateLocalDemoReply(cleanText, isReflection);
+          saveIndicator.textContent = 'Mode Simulasi Lokal (belum tersimpan ke Sheet)';
+        }
+
+        removeTypingIndicator();
+        appendMessage('model', botReply);
+
+        state.history.push({ role: 'user', text: cleanText });
+        state.history.push({ role: 'model', text: botReply });
+      } catch (err) {
+        removeTypingIndicator();
+        appendMessage(
+          'model',
+          'Maaf, koneksi ke server tutor sedang terganggu. Silakan coba kirim ulang pesanmu beberapa detik lagi.'
+        );
+        saveIndicator.textContent = 'Gagal menyimpan — coba kirim ulang';
+        showToast(err.message || 'Terjadi gangguan koneksi.');
+      } finally {
+        state.isSending = false;
+        btnSend.disabled = false;
+        btnReflect.disabled = false;
+        chatInput.focus();
+      }
+    }
+
+    // Event: Tombol Contoh Topik Cepat
+    document.querySelectorAll('.sample-topic-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.getElementById('mapel').value = btn.dataset.sampleMapel;
+        document.getElementById('topik').value = btn.dataset.sampleTopik;
+        const namaEl = document.getElementById('namaSiswa');
+        if (!namaEl.value.trim()) {
+          namaEl.focus();
+        }
+      });
+    });
+
+    // Event: Mulai Diskusi
+    startForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      state.namaSiswa = document.getElementById('namaSiswa').value.trim();
+      state.jenjang = document.getElementById('jenjang').value;
+      state.mapel = document.getElementById('mapel').value;
+      state.topik = document.getElementById('topik').value.trim();
+      state.sessionId = generateSessionId();
+      state.history = [];
+      state.turnCount = 0;
+
+      badgeSessionId.textContent = state.sessionId;
+      sessionMeta.textContent = `${state.namaSiswa} • ${state.jenjang} • ${state.mapel} | ${state.topik}`;
+      chatMessages.innerHTML = '';
+
+      if (!IS_LIVE_BACKEND) {
+        demoNotice.classList.remove('hidden');
+        saveIndicator.textContent = 'Mode Simulasi Lokal';
+      } else {
+        demoNotice.classList.add('hidden');
+        saveIndicator.textContent = 'Siap mencatat ke Google Sheet';
+      }
+
+      setupScreen.classList.add('hidden');
+      chatScreen.classList.remove('hidden');
+
+      const openingMsg = `Halo **${state.namaSiswa}**! Senang bisa belajar bareng hari ini pada materi **${state.mapel} — ${state.topik}**. Sebelum kita mulai, tuliskan soal yang ingin kamu bahas atau ceritakan bagian mana yang sudah kamu pahami dan mana yang masih membuatmu ragu.`;
+      appendMessage('model', openingMsg);
+      state.history.push({ role: 'model', text: openingMsg });
+      chatInput.focus();
+    });
+
+    // Event: Kirim Pesan
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sendMessage(chatInput.value, false);
+    });
+
+    // Enter kirim, Shift+Enter baris baru + auto-resize textarea
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage(chatInput.value, false);
+      }
+    });
+    chatInput.addEventListener('input', () => {
+      chatInput.style.height = 'auto';
+      chatInput.style.height = Math.min(chatInput.scrollHeight, 144) + 'px';
+    });
+
+    // Event: Quick Chips
+    document.querySelectorAll('.quick-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chatInput.value = chip.textContent.trim();
+        chatInput.focus();
+      });
+    });
+
+    // Event: Akhiri & Refleksi
+    btnReflect.addEventListener('click', () => {
+      sendMessage('Saya merasa sudah cukup paham dan ingin melakukan refleksi penutup.', true);
+    });
+
+    // Event: Modal Ganti Topik
+    btnReset.addEventListener('click', () => {
+      modalSessionId.textContent = state.sessionId;
+      resetModal.classList.remove('hidden');
+    });
+    btnCancelReset.addEventListener('click', () => {
+      resetModal.classList.add('hidden');
+    });
+    btnConfirmReset.addEventListener('click', () => {
+      resetModal.classList.add('hidden');
+      chatScreen.classList.add('hidden');
+      setupScreen.classList.remove('hidden');
+    });
+
+    // Jalankan inisialisasi
+    initConnectionBanner();
+  </script>
+</body>
+</html>
