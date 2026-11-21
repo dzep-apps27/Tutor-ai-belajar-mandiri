@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TUTOR BELAJAR MANDIRI — Tutor Sokrates Berkesadaran</title>
+  <title>TUTOR BELAJAR MANDIRI — Tutor AI Berkesadaran</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -54,7 +54,7 @@
         </div>
         <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">TUTOR BELAJAR MANDIRI</h1>
         <p class="text-slate-200 text-sm mt-1.5 leading-relaxed">
-          Diskusi terpandu bersama Tutor Sokrates. AI membantu dengan pertanyaan pemantik agar kamu menemukan jawabannya sendiri.
+          Diskusi terpandu bersama Tutor AI membantu dengan belajar mandiri.
         </p>
       </div>
 
@@ -363,7 +363,7 @@
 
       const label = document.createElement('div');
       label.className = `text-[11px] font-semibold mb-1 ${role === 'user' ? 'text-teal-100' : 'text-[#0f4c5c]'}`;
-      label.textContent = role === 'user' ? state.namaSiswa : 'Tutor Sokrates';
+      label.textContent = role === 'user' ? state.namaSiswa : 'Tutor AI';
 
       const body = document.createElement('div');
       body.innerHTML = formatSimpleMarkdown(text);
