@@ -54,7 +54,7 @@
         </div>
         <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">TUTOR BELAJAR MANDIRI</h1>
         <p class="text-slate-200 text-sm mt-1.5 leading-relaxed">
-          Diskusi terpandu bersama Tutor AI membantu dengan belajar mandiri.
+          Diskusi terpandu bersama Tutor AI belajar mandiri.
         </p>
       </div>
 
@@ -179,18 +179,18 @@
         <p id="sessionMeta" class="text-xs text-slate-500 truncate mt-0.5"></p>
       </div>
 
-      <div class="flex items-center gap-2 flex-shrink-0">
+      <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
         <button
           id="btnReflect"
           type="button"
-          class="text-xs font-semibold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-3 py-1.5 rounded-lg transition"
+          class="text-[11px] sm:text-xs font-semibold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-2.5 sm:px-3 py-1.5 rounded-lg transition whitespace-nowrap"
         >
           Akhiri &amp; Refleksi
         </button>
         <button
           id="btnReset"
           type="button"
-          class="text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg transition"
+          class="text-[11px] sm:text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 sm:px-3 py-1.5 rounded-lg transition whitespace-nowrap"
         >
           Ganti Topik
         </button>
@@ -266,7 +266,7 @@
     // KONFIGURASI BACKEND GOOGLE APPS SCRIPT
     // Ganti teks di bawah ini dengan Web App URL hasil Deploy Code.gs (/exec)
     // =========================================================================
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymeBfNtxUnxAaQ_2dr6t3qtDf2zC4QwqrT8ajOAUjtshIbJoy_uJY_nIXm1mzZ5hdL/exec';
+    const APPS_SCRIPT_URL = 'PASTE_URL_WEB_APP_GOOGLE_APPS_SCRIPT_DI_SINI';
 
     const IS_LIVE_BACKEND =
       APPS_SCRIPT_URL.startsWith('https://script.google.com/macros/s/') &&
@@ -471,12 +471,13 @@
         state.history.push({ role: 'model', text: botReply });
       } catch (err) {
         removeTypingIndicator();
+        const detail = err && err.message ? `\n\n*Detail teknis: ${err.message}*` : '';
         appendMessage(
           'model',
-          'Maaf, koneksi ke server tutor sedang terganggu. Silakan coba kirim ulang pesanmu beberapa detik lagi.'
+          'Maaf, server tutor belum bisa merespons saat ini. Silakan coba kirim ulang beberapa detik lagi.' + detail
         );
         saveIndicator.textContent = 'Gagal menyimpan — coba kirim ulang';
-        showToast(err.message || 'Terjadi gangguan koneksi.');
+        showToast(err && err.message ? err.message : 'Terjadi gangguan koneksi.');
       } finally {
         state.isSending = false;
         btnSend.disabled = false;
